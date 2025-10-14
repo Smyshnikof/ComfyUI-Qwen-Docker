@@ -29,23 +29,23 @@ https://your-pod-id-8888.proxy.runpod.net
 
 ### 4. Установите нужные пресеты
 
-#### Все пресеты Wan
+#### Все пресеты Qwen
 ```bash
-bash /download_presets.sh WAN_T2V,WAN_T2I,WAN_I2V,WAN_ANIMATE
+bash /download_presets.sh QWEN_EDIT,QWEN_IMAGE
 ```
 
 #### Только определенные пресеты
 ```bash
-# Только T2V и I2V
-bash /download_presets.sh WAN_T2V,WAN_I2V
+# Только Edit
+bash /download_presets.sh QWEN_EDIT
 
-# Только Animate
-bash /download_presets.sh WAN_ANIMATE
+# Только Image
+bash /download_presets.sh QWEN_IMAGE
 ```
 
 #### Тихий режим (без прогресс-бара)
 ```bash
-bash /download_presets.sh --quiet WAN_T2V,WAN_I2I
+bash /download_presets.sh --quiet QWEN_EDIT,QWEN_IMAGE
 ```
 
 ### 5. Проверьте установку
@@ -54,7 +54,7 @@ bash /download_presets.sh --quiet WAN_T2V,WAN_I2I
 ls -la /workspace/ComfyUI/models/diffusion_models/
 
 # Проверить workflow
-ls -la /workspace/ComfyUI/user/workflows/Wan/
+ls -la /workspace/ComfyUI/user/workflows/Qwen/
 ```
 
 ### 6. Запустите ComfyUI
@@ -165,7 +165,7 @@ def install_presets(presets):
     return result.returncode == 0
 
 # Использование
-presets = ["WAN_T2V", "WAN_I2V"]
+presets = ["QWEN_EDIT", "QWEN_IMAGE"]
 if install_presets(presets):
     print("✅ Пресеты установлены успешно")
 else:

@@ -41,8 +41,8 @@ python runpod_deploy.py
 1. Перейдите в [RunPod Console](https://runpod.io/console/templates)
 2. Нажмите "New Template"
 3. Заполните поля:
-   - **Name**: `ComfyUI-Wan-2.2`
-   - **Container Image**: `smyshnikof/comfyui:base-torch2.8.0-cu128`
+   - **Name**: `ComfyUI-Qwen`
+   - **Container Image**: `smyshnikof/comfyui-qwen:base-torch2.8.0-cu128`
    - **Container Disk**: `50 GB`
    - **Ports**: `3000, 8081, 8082, 8083, 8888`
 
@@ -52,10 +52,9 @@ python runpod_deploy.py
 
 | Key | Value | Описание |
 |-----|-------|----------|
-| `PRESET_DOWNLOAD` | `WAN_T2V,WAN_T2I,WAN_I2V,WAN_ANIMATE` | Автоскачивание пресетов |
+| `PRESET_DOWNLOAD` | `QWEN_EDIT,QWEN_IMAGE` | Автоскачивание пресетов |
 | `ACCESS_PASSWORD` | `your_password` | Пароль для JupyterLab |
 | `TIME_ZONE` | `Europe/Moscow` | Часовой пояс |
-| `INSTALL_SAGEATTENTION` | `True` | Установка SageAttention2 |
 
 Для образа `slim` (рекомендуется) переменные не обязательны.
 
@@ -74,10 +73,10 @@ python runpod_deploy.py
 ### 1. Обновление Docker образа
 ```bash
 # Сборка нового образа
-docker build -t smyshnikof/comfyui:base-torch2.8.0-cu128 .
+docker build -t smyshnikof/comfyui-qwen:base-torch2.8.0-cu128 .
 
 # Пуш в реестр
-docker push smyshnikof/comfyui:base-torch2.8.0-cu128
+docker push smyshnikof/comfyui-qwen:base-torch2.8.0-cu128
 ```
 
 ### 2. Обновление Template

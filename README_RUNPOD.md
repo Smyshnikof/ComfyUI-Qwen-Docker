@@ -16,7 +16,7 @@
 ## 🏷️ Формат тегов
 
 ```text
-smyshnikof/comfyui:base-torch2.8.0-cu128
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu128
 ```
 
 * **base**: ComfyUI + Manager + кастомные ноды + веб-загрузчик пресетов
@@ -29,9 +29,9 @@ smyshnikof/comfyui:base-torch2.8.0-cu128
 
 | Имя образа                                 | Кастомные ноды | Веб-загрузчик | CUDA |
 | ------------------------------------------ | ------------ | ---- | ---- |
-| `smyshnikof/comfyui:base-torch2.8.0-cu124`| ✅ Да         | ✅ Да  | 12.4 |
-| `smyshnikof/comfyui:base-torch2.8.0-cu126`| ✅ Да         | ✅ Да  | 12.6 |
-| `smyshnikof/comfyui:base-torch2.8.0-cu128`| ✅ Да         | ✅ Да  | 12.8 |
+| `smyshnikof/comfyui-qwen:base-torch2.8.0-cu124`| ✅ Да         | ✅ Да  | 12.4 |
+| `smyshnikof/comfyui-qwen:base-torch2.8.0-cu126`| ✅ Да         | ✅ Да  | 12.6 |
+| `smyshnikof/comfyui-qwen:base-torch2.8.0-cu128`| ✅ Да         | ✅ Да  | 12.8 |
 
 > 👉 Для переключения: **Edit Pod/Template** → установите `Container Image`.
 
@@ -43,12 +43,10 @@ smyshnikof/comfyui:base-torch2.8.0-cu128
 | ----------------------- | -------------------------------------------------------------------------- | --------- |
 | `ACCESS_PASSWORD`       | Пароль для JupyterLab & code-server                                      | (авто)   |
 | `TIME_ZONE`             | [Часовой пояс](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (например, `Asia/Seoul`)   | `Etc/UTC` |
-| `COMFYUI_EXTRA_ARGS`    | Дополнительные опции ComfyUI (например `--fast`)                        | --use-sage-attention   |
-| `INSTALL_SAGEATTENTION` | Установить [SageAttention2](https://github.com/thu-ml/SageAttention) при запуске (`True`/`False`) | `True`    |
+| `COMFYUI_EXTRA_ARGS`    | Дополнительные опции ComfyUI (например `--fast`)                        | (не установлен)   |
 
 > 👉 Для установки: **Edit Pod/Template** → **Add Environment Variable** (Key/Value).
 
-> ⚠️ SageAttention2 требует **GPU Ampere+** и ~5 минут для установки.
 
 > 🎯 **Этот template идеально подходит для видеокарт 40 и 50 серии**
 
@@ -59,13 +57,13 @@ smyshnikof/comfyui:base-torch2.8.0-cu128
 ### 1. Выберите образ
 ```
 # RTX 5090/5080
-smyshnikof/comfyui:base-torch2.8.0-cu128
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu128
 
 # RTX 4090/4080
-smyshnikof/comfyui:base-torch2.8.0-cu126
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu126
 
 # RTX 4070/3090/3080
-smyshnikof/comfyui:base-torch2.8.0-cu124
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu124
 ```
 
 ### 2. Запустите POD
@@ -89,22 +87,20 @@ https://your-pod-id-3000.proxy.runpod.net
 
 ---
 
-## 🔧 Скачивание пресетов (Wan)
+## 🔧 Скачивание пресетов (Qwen)
 
 > **Рекомендуется**: Используйте веб-загрузчик (порт 8081) для удобного скачивания пресетов.
 
 > **Альтернативно**: Можно вручную запустить скрипт в JupyterLab:
 
 ```bash
-bash /download_presets.sh WAN_T2V,WAN_T2I,WAN_I2V,WAN_ANIMATE
+bash /download_presets.sh QWEN_EDIT,QWEN_IMAGE
 ```
 
-### Wan пресеты (встроенные workflow)
+### Qwen пресеты (встроенные workflow)
 
-- `WAN_T2V` - (~40GB)
-- `WAN_T2I` - (~18GB)  
-- `WAN_I2V` - (~40GB)
-- `WAN_ANIMATE` - (~30GB)
+- `QWEN_EDIT` - (~15GB) - Qwen Image Edit генерация
+- `QWEN_IMAGE` - (~15GB) - Qwen Image генерация
 
 ---
 
@@ -127,7 +123,7 @@ bash /download_presets.sh WAN_T2V,WAN_T2I,WAN_I2V,WAN_ANIMATE
 * **ОС**: Ubuntu 24.04 (22.02 для CUDA 12.4)
 * **Python**: 3.13
 * **Фреймворк**: [ComfyUI](https://github.com/comfyanonymous/ComfyUI) + [ComfyUI Manager](https://github.com/Comfy-Org/ComfyUI-Manager) + [JupyterLab](https://jupyter.org/)
-* **Библиотеки**: PyTorch 2.8.0, CUDA (12.4–12.8), Triton, [hf\_hub](https://huggingface.co/docs/huggingface_hub), [nvtop](https://github.com/Syllo/nvtop)
+* **Библиотеки**: PyTorch 2.8.0, CUDA (12.4–12.8), [hf\_hub](https://huggingface.co/docs/huggingface_hub), [nvtop](https://github.com/Syllo/nvtop)
 
 #### Кастомные ноды (в образе **base**)
 
@@ -138,7 +134,7 @@ bash /download_presets.sh WAN_T2V,WAN_T2I,WAN_I2V,WAN_ANIMATE
 ## 🌐 Веб-сервисы
 
 ### Загрузчик пресетов и моделей (порт 8081)
-- Скачивание пресетов Wan по нажатию кнопки
+- Скачивание пресетов Qwen по нажатию кнопки
 - Скачивание моделей с HuggingFace
 - Поддержка API токенов для приватных репозиториев
 - Выбор папки назначения для моделей

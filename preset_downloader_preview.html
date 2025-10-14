@@ -69,10 +69,10 @@
 <body>
   <div class="wrap">
     <h1 class="title">Загрузчик пресетов и моделей</h1>
-    <p class="subtitle">Скачивание пресетов Wan и моделей с HuggingFace</p>
+    <p class="subtitle">Скачивание пресетов Qwen и моделей с HuggingFace</p>
     
     <div class="tabs">
-      <div class="tab active" onclick="switchTab('presets')">🎯 Пресеты Wan</div>
+      <div class="tab active" onclick="switchTab('presets')">🎯 Пресеты Qwen</div>
       <div class="tab" onclick="switchTab('huggingface')">🤗 HuggingFace</div>
     </div>
     
@@ -81,25 +81,15 @@
       <div class="card tab-content active" id="presets-tab">
         <h3>Выберите пресеты для скачивания</h3>
         <div class="preset-grid" id="preset-grid">
-          <div class="preset-card" data-preset="WAN_T2V" onclick="togglePreset('WAN_T2V')">
-            <div class="preset-name">Wan T2V (Text-to-Video)</div>
-            <div class="preset-desc">Генерация видео из текста</div>
-            <div class="preset-info">Размер: ~40GB • Время: 15-20 мин</div>
+          <div class="preset-card" data-preset="QWEN_EDIT" onclick="togglePreset('QWEN_EDIT')">
+            <div class="preset-name">Qwen Edit (Image Edit)</div>
+            <div class="preset-desc">Редактирование изображений</div>
+            <div class="preset-info">Размер: ~15GB • Время: 8-12 мин</div>
           </div>
-          <div class="preset-card" data-preset="WAN_T2I" onclick="togglePreset('WAN_T2I')">
-            <div class="preset-name">Wan T2I (Text-to-Image)</div>
+          <div class="preset-card" data-preset="QWEN_IMAGE" onclick="togglePreset('QWEN_IMAGE')">
+            <div class="preset-name">Qwen Image (Text-to-Image)</div>
             <div class="preset-desc">Генерация изображений из текста</div>
-            <div class="preset-info">Размер: ~18GB • Время: 8-12 мин</div>
-          </div>
-          <div class="preset-card" data-preset="WAN_I2V" onclick="togglePreset('WAN_I2V')">
-            <div class="preset-name">Wan I2V (Image-to-Video)</div>
-            <div class="preset-desc">Генерация видео из изображения</div>
-            <div class="preset-info">Размер: ~40GB • Время: 15-20 мин</div>
-          </div>
-          <div class="preset-card" data-preset="WAN_ANIMATE" onclick="togglePreset('WAN_ANIMATE')">
-            <div class="preset-name">Wan Animate</div>
-            <div class="preset-desc">Анимация изображений</div>
-            <div class="preset-info">Размер: ~30GB • Время: 10-15 мин</div>
+            <div class="preset-info">Размер: ~15GB • Время: 8-12 мин</div>
           </div>
         </div>
         <div class="row-full">
@@ -434,7 +424,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Добавляем пример выбранного пресета
       setTimeout(() => {
-        togglePreset('WAN_T2V');
+        togglePreset('QWEN_EDIT');
       }, 500);
     });
   </script>

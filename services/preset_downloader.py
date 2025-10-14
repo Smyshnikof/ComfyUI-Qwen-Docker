@@ -16,29 +16,17 @@ app = FastAPI(title="Preset & Model Downloader")
 
 # Доступные пресеты
 PRESETS = {
-    "WAN_T2V": {
-        "name": "Wan T2V (Text-to-Video)",
-        "description": "Генерация видео из текста",
-        "size": "~40GB",
-        "time": "15-20 мин"
-    },
-    "WAN_T2I": {
-        "name": "Wan T2I (Text-to-Image)", 
-        "description": "Генерация изображений из текста",
-        "size": "~18GB",
+    "QWEN_EDIT": {
+        "name": "Qwen Edit (Image Edit)",
+        "description": "Редактирование изображений",
+        "size": "~15GB",
         "time": "8-12 мин"
     },
-    "WAN_I2V": {
-        "name": "Wan I2V (Image-to-Video)",
-        "description": "Генерация видео из изображения",
-        "size": "~40GB", 
-        "time": "15-20 мин"
-    },
-    "WAN_ANIMATE": {
-        "name": "Wan Animate",
-        "description": "Анимация изображений",
-        "size": "~30GB",
-        "time": "10-15 мин"
+    "QWEN_IMAGE": {
+        "name": "Qwen Image (Text-to-Image)", 
+        "description": "Генерация изображений из текста",
+        "size": "~15GB",
+        "time": "8-12 мин"
     }
 }
 
@@ -113,10 +101,10 @@ INDEX_HTML = """
 <body>
   <div class="wrap">
     <h1 class="title">Загрузчик пресетов и моделей</h1>
-    <p class="subtitle">Скачивание пресетов Wan и моделей с HuggingFace</p>
+    <p class="subtitle">Скачивание пресетов Qwen и моделей с HuggingFace</p>
     
     <div class="tabs">
-      <div class="tab active" onclick="switchTab('presets')">🎯 Пресеты Wan</div>
+      <div class="tab active" onclick="switchTab('presets')">🎯 Пресеты Qwen</div>
       <div class="tab" onclick="switchTab('huggingface')">🤗 HuggingFace</div>
     </div>
     

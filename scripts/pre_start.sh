@@ -95,9 +95,9 @@ fi
 # Users can download presets through the convenient preset downloader service
 echo "**** Preset downloads available via web interface at port 8081 ****"
 
-# Copy Wan workflows into ComfyUI user dir if present
-echo "**** Copying Wan workflows (if any) ****"
-SRC_PRESETS_DIR="/presets/wan"
+# Copy Qwen workflows into ComfyUI user dir if present
+echo "**** Copying Qwen workflows (if any) ****"
+SRC_PRESETS_DIR="/presets/qwen"
 DST_WORKFLOWS_DIR="/workspace/ComfyUI/user/default/workflows"
 if [ -d "$SRC_PRESETS_DIR" ]; then
     mkdir -p "$DST_WORKFLOWS_DIR"

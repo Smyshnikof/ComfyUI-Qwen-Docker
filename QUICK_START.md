@@ -29,16 +29,16 @@
 ### 1. Выберите образ
 ```
 # Для RTX 5090/5080 (драйвер 550+)
-smyshnikof/comfyui:base-torch2.8.0-cu128
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu128
 
 # Для RTX 4090/4080 (драйвер 535+)
-smyshnikof/comfyui:base-torch2.8.0-cu126
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu126
 
 # Для RTX 4070/3090/3080 (драйвер 530+)
-smyshnikof/comfyui:base-torch2.8.0-cu124
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu124
 
 # Для старых драйверов (525 и ниже)
-smyshnikof/comfyui:base-torch2.8.0-cu121
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu121
 ```
 
 ### 2. Запустите POD
@@ -51,10 +51,8 @@ https://your-pod-id-8081.proxy.runpod.net
 ```
 
 ### 4. Выберите и скачайте нужные пресеты
-- **Wan T2V**: ~40GB (генерация видео из текста)
-- **Wan T2I**: ~18GB (генерация изображений из текста)  
-- **Wan I2V**: ~40GB (генерация видео из изображения)
-- **Wan Animate**: ~30GB (анимация изображений)
+- **Qwen Edit**: ~15GB (редактирование изображений)
+- **Qwen Image**: ~15GB (генерация изображений из текста)
 
 ### 5. Откройте ComfyUI
 ```
@@ -97,12 +95,12 @@ nvidia-container-cli: requirement error: unsatisfied condition: cuda>=12.8
 
 3. **Попробуйте `cu126` (если cu128 не работает)**:
    ```
-   smyshnikof/comfyui:base-torch2.8.0-cu126
+   smyshnikof/comfyui-qwen:base-torch2.8.0-cu126
    ```
 
 4. **Если ничего не помогает, используйте `cu121`**:
    ```
-   smyshnikof/comfyui:base-torch2.8.0-cu121
+   smyshnikof/comfyui-qwen:base-torch2.8.0-cu121
    ```
 
 5. **Обратитесь в поддержку RunPod**:

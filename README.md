@@ -33,7 +33,7 @@
 ## 🏷️ Формат тегов
 
 ```text
-smyshnikof/comfyui-wan:(A)-torch2.8.0-(B)
+smyshnikof/comfyui-qwen:(A)-torch2.8.0-(B)
 ```
 
 * **(A)**: `base` - основной образ
@@ -46,9 +46,9 @@ smyshnikof/comfyui-wan:(A)-torch2.8.0-(B)
 
 | Имя образа                                 | Кастомные ноды | Пресеты | CUDA |
 | ------------------------------------------ | ------------ | ---- | ---- |
-| `smyshnikof/comfyui-wan:base-torch2.8.0-cu124`| ✅ Да         | ✅ Да  | 12.4 |
-| `smyshnikof/comfyui-wan:base-torch2.8.0-cu126`| ✅ Да         | ✅ Да  | 12.6 |
-| `smyshnikof/comfyui-wan:base-torch2.8.0-cu128`| ✅ Да         | ✅ Да  | 12.8 |
+| `smyshnikof/comfyui-qwen:base-torch2.8.0-cu124`| ✅ Да         | ✅ Да  | 12.4 |
+| `smyshnikof/comfyui-qwen:base-torch2.8.0-cu126`| ✅ Да         | ✅ Да  | 12.6 |
+| `smyshnikof/comfyui-qwen:base-torch2.8.0-cu128`| ✅ Да         | ✅ Да  | 12.8 |
 
 > 👉 Для переключения: **Edit Pod/Template** → установите `Container Image`.
 
@@ -58,15 +58,15 @@ smyshnikof/comfyui-wan:(A)-torch2.8.0-(B)
 
 | Видеокарта | Рекомендуемый образ | Примечание |
 |------------|-------------------|------------|
-| **RTX 5090** | `smyshnikof/comfyui-wan:base-torch2.8.0-cu128` | Требует CUDA 12.8+ для SageAttention2 |
-| **RTX 5080** | `smyshnikof/comfyui-wan:base-torch2.8.0-cu128` | Требует CUDA 12.8+ для SageAttention2 |
-| **RTX 4090** | `smyshnikof/comfyui-wan:base-torch2.8.0-cu126` | Оптимальная производительность |
-| **RTX 4080** | `smyshnikof/comfyui-wan:base-torch2.8.0-cu126` | Отличная совместимость |
-| **RTX 4070** | `smyshnikof/comfyui-wan:base-torch2.8.0-cu124` | Стабильная работа |
-| **RTX 3090** | `smyshnikof/comfyui-wan:base-torch2.8.0-cu124` | Совместимость с Ampere |
-| **RTX 3080** | `smyshnikof/comfyui-wan:base-torch2.8.0-cu124` | Совместимость с Ampere |
+| **RTX 5090** | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu128` | Оптимальная производительность |
+| **RTX 5080** | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu128` | Отличная совместимость |
+| **RTX 4090** | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu126` | Оптимальная производительность |
+| **RTX 4080** | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu126` | Отличная совместимость |
+| **RTX 4070** | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu124` | Стабильная работа |
+| **RTX 3090** | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu124` | Совместимость с Ampere |
+| **RTX 3080** | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu124` | Совместимость с Ampere |
 
-> ⚠️ **Важно**: RTX 5090/5080 требуют CUDA 12.8+ для корректной работы SageAttention2. При использовании CUDA 12.4/12.6 SageAttention2 не установится.
+> ⚠️ **Важно**: Qwen модели оптимизированы для современных GPU и не требуют специальных зависимостей.
 
 ---
 
@@ -77,23 +77,21 @@ smyshnikof/comfyui-wan:(A)-torch2.8.0-(B)
 | `ACCESS_PASSWORD`       | Пароль для JupyterLab & code-server                                      | (не установлен)   |
 | `TIME_ZONE`             | [Часовой пояс](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (например, `Asia/Seoul`)   | `Etc/UTC` |
 | `COMFYUI_EXTRA_ARGS`    | Дополнительные опции ComfyUI (например `--fast`)                        | (не установлен)   |
-| `INSTALL_SAGEATTENTION` | Установить [SageAttention2](https://github.com/thu-ml/SageAttention) при запуске (`True`/`False`) | `True`    |
 | `PRESET_DOWNLOAD`       | Скачать пресеты моделей при запуске (список через запятую). **См. ниже**.                  | (не установлен)   |
 
 > 👉 Для установки: **Edit Pod/Template** → **Add Environment Variable** (Key/Value).
 
-> ⚠️ SageAttention2 требует **GPU Ampere+** и ~5 минут для установки.
 
 > 🎯 **Этот template идеально подходит для видеокарт 40 и 50 серии** (RTX 4090, RTX 4080, RTX 4070, RTX 5090, RTX 5080 и т.д.)  
-> ⚠️ **Для RTX 5090 используйте образ с CUDA 12.8+** (`smyshnikof/comfyui:base-torch2.8.0-cu128`)
+> ⚠️ **Для RTX 5090 используйте образ с CUDA 12.8+** (`smyshnikof/comfyui-qwen:base-torch2.8.0-cu128`)
 
 ---
 
-## 🔧 Скачивание пресетов (Wan)
+## 🔧 Скачивание пресетов (Qwen)
 
 > Переменная `PRESET_DOWNLOAD` принимает либо **один пресет**, либо **несколько пресетов** через запятую.\
-> (например `WAN_T2V` или `WAN_T2V,WAN_T2I,WAN_I2V,WAN_ANIMATE`) \
-> **Для использования всех пресетов:** `WAN_T2V,WAN_T2I,WAN_I2V,WAN_ANIMATE` \
+> (например `QWEN_EDIT` или `QWEN_EDIT,QWEN_IMAGE`) \
+> **Для использования всех пресетов:** `QWEN_EDIT,QWEN_IMAGE` \
 > При установке контейнер автоматически скачает соответствующие модели при запуске.
 
 > Также можно вручную запустить скрипт скачивания пресетов **внутри JupyterLab или code-server**:
@@ -102,16 +100,14 @@ smyshnikof/comfyui-wan:(A)-torch2.8.0-(B)
 bash /download_presets.sh PRESET1,PRESET2,...
 ```
 
-> Доступные пресеты: `WAN_T2V`, `WAN_T2I`, `WAN_I2V`, `WAN_ANIMATE`.
+> Доступные пресеты: `QWEN_EDIT`, `QWEN_IMAGE`.
 
-### Wan пресеты (встроенные workflow)
+### Qwen пресеты (встроенные workflow)
 
 Новые кастомные пресеты, которые включают скачивание моделей и готовые к использованию workflow:
 
-- `WAN_T2V` - Text-to-Video генерация
-- `WAN_T2I` - Text-to-Image генерация  
-- `WAN_I2V` - Image-to-Video генерация
-- `WAN_ANIMATE` - Wan Animate генерация
+- `QWEN_EDIT` - Qwen Image Edit генерация
+- `QWEN_IMAGE` - Qwen Image генерация
 
 Соответствующие workflow копируются в `/workspace/ComfyUI/user/default/workflows/` при запуске.
 
@@ -135,7 +131,7 @@ bash /download_presets.sh PRESET1,PRESET2,...
 * **ОС**: Ubuntu 24.04 (22.02 для CUDA 12.4)
 * **Python**: 3.13
 * **Фреймворк**: [ComfyUI](https://github.com/comfyanonymous/ComfyUI) + [ComfyUI Manager](https://github.com/Comfy-Org/ComfyUI-Manager) + [JupyterLab](https://jupyter.org/)
-* **Библиотеки**: PyTorch 2.8.0, CUDA (12.4–12.8), Triton, [hf\_hub](https://huggingface.co/docs/huggingface_hub), [nvtop](https://github.com/Syllo/nvtop)
+* **Библиотеки**: PyTorch 2.8.0, CUDA (12.4–12.8), [hf\_hub](https://huggingface.co/docs/huggingface_hub), [nvtop](https://github.com/Syllo/nvtop)
 
 #### Кастомные ноды (в образе **base**)
 
