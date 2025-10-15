@@ -74,10 +74,10 @@ https://your-pod-id-8081.proxy.runpod.net
 ```
 
 ### 4. Выберите и скачайте нужные пресеты
-- **Wan T2V**: ~40GB (видео из текста)
-- **Wan T2I**: ~18GB (изображений из текста)  
-- **Wan I2V**: ~40GB (видео из изображения)
-- **Wan Animate**: ~30GB (анимация изображений)
+- **Qwen Image (fp8)**: ~15GB — пресет `QWEN_IMAGE`
+- **Qwen Edit (fp8)**: ~15GB — пресет `QWEN_EDIT`
+- **Qwen Image (BF16)**: требуется ~40GB VRAM — пресет `QWEN_IMAGE_BF16` (нужен образ `cu128`)
+- **Qwen Edit (BF16)**: требуется ~40GB VRAM — пресет `QWEN_EDIT_BF16` (нужен образ `cu128`)
 
 ### 5. Откройте ComfyUI
 ```
