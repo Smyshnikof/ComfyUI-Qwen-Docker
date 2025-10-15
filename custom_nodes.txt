@@ -29,3 +29,5 @@ https://github.com/Fannovel16/comfyui_controlnet_aux.git
 https://github.com/kijai/ComfyUI-Florence2.git
 https://github.com/kijai/ComfyUI-segment-anything-2
 https://github.com/GACLove/ComfyUI-VFI
+https://github.com/lquesada/ComfyUI-Inpaint-CropAndStitch
+https://github.com/WASasquatch/was-node-suite-comfyui
