@@ -96,13 +96,27 @@ https://your-pod-id-3000.proxy.runpod.net
 > **Альтернативно**: Можно вручную запустить скрипт в JupyterLab:
 
 ```bash
+# базовые fp8 пресеты
 bash /download_presets.sh QWEN_EDIT,QWEN_IMAGE
+
+# полные BF16 пресеты (нужна ~40GB VRAM на карту)
+bash /download_presets.sh QWEN_IMAGE_BF16,QWEN_EDIT_BF16
 ```
 
 ### Qwen пресеты (встроенные workflow)
 
-- `QWEN_EDIT` - (~15GB) - Qwen Image Edit генерация
-- `QWEN_IMAGE` - (~15GB) - Qwen Image генерация
+- `QWEN_EDIT` — (~15GB) редактирование изображений (fp8)
+- `QWEN_IMAGE` — (~15GB) генерация изображений (fp8)
+- `QWEN_IMAGE_BF16` — (~40GB VRAM) генерация изображений (полная BF16)
+- `QWEN_EDIT_BF16` — (~40GB VRAM) редактирование изображений (полная BF16)
+
+> ℹ️ BF16 — «полные» модели: стабильнее по качеству, но требуют больше VRAM и работают медленнее, чем fp8.
+
+#### Файлы workflow
+- `presets/qwen/Qwen-Image/Qwen Image.json` (fp8)
+- `presets/qwen/Qwen-Image/Qwen Image BF16.json` (BF16)
+- `presets/qwen/Qwen-Edit/Qwen Edit Smyshnikov.json` (fp8)
+- `presets/qwen/Qwen-Edit/Qwen Edit BF16.json` (BF16)
 
 ---
 

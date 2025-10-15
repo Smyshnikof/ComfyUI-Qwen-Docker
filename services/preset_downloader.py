@@ -27,6 +27,18 @@ PRESETS = {
         "description": "Генерация изображений из текста",
         "size": "~15GB",
         "time": "8-12 мин"
+    },
+    "QWEN_IMAGE_BF16": {
+        "name": "Qwen Image (Full BF16)",
+        "description": "Полная BF16-модель для генерации (≈40GB VRAM)",
+        "size": "~40GB",
+        "time": "10-20 мин"
+    },
+    "QWEN_EDIT_BF16": {
+        "name": "Qwen Edit (Full BF16)",
+        "description": "Полная BF16-модель для редактирования (≈40GB VRAM)",
+        "size": "~40GB",
+        "time": "10-20 мин"
     }
 }
 
