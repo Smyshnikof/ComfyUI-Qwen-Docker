@@ -39,6 +39,18 @@ PRESETS = {
         "description": "Полная BF16-модель для редактирования (≈40GB VRAM)",
         "size": "~40GB",
         "time": "10-20 мин"
+    },
+    "QWEN_EDIT_2509_BF16": {
+        "name": "Qwen Edit 2509 (BF16)",
+        "description": "Qwen Image Edit 2509 BF16 с Lightning LoRA 8steps",
+        "size": "~15GB",
+        "time": "8-12 мин"
+    },
+    "QWEN_EDIT_2509_FP8": {
+        "name": "Qwen Edit 2509 (FP8)",
+        "description": "Qwen Image Edit 2509 FP8 с Lightning LoRA 8steps",
+        "size": "~15GB",
+        "time": "8-12 мин"
     }
 }
 

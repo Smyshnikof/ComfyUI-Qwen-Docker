@@ -83,6 +83,22 @@ for preset in "${PRESETS[@]}"; do
             download_if_missing "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-8steps-V1.0.safetensors" "/workspace/ComfyUI/models/loras"
             download_if_missing "https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth" "/workspace/ComfyUI/models/upscale_models"
             ;;
+        QWEN_EDIT_2509_BF16)
+            echo "Preset: QWEN_EDIT_2509_BF16 (Qwen Image Edit 2509 BF16)"
+            download_if_missing "https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_2509_bf16.safetensors" "/workspace/ComfyUI/models/diffusion_models"
+            download_if_missing "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors" "/workspace/ComfyUI/models/text_encoders"
+            download_if_missing "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors" "/workspace/ComfyUI/models/vae"
+            download_if_missing "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors" "/workspace/ComfyUI/models/loras"
+            download_if_missing "https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth" "/workspace/ComfyUI/models/upscale_models"
+            ;;
+        QWEN_EDIT_2509_FP8)
+            echo "Preset: QWEN_EDIT_2509_FP8 (Qwen Image Edit 2509 FP8)"
+            download_if_missing "https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors" "/workspace/ComfyUI/models/diffusion_models"
+            download_if_missing "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors" "/workspace/ComfyUI/models/text_encoders"
+            download_if_missing "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors" "/workspace/ComfyUI/models/vae"
+            download_if_missing "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors" "/workspace/ComfyUI/models/loras"
+            download_if_missing "https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth" "/workspace/ComfyUI/models/upscale_models"
+            ;;
         *)
             echo "No matching QWEN preset for '${preset}', skipping."
             ;;
