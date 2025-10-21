@@ -16,15 +16,21 @@ app = FastAPI(title="Preset & Model Downloader")
 
 # Доступные пресеты
 PRESETS = {
+    "QWEN_IMAGE": {
+        "name": "Qwen Image (Text-to-Image)", 
+        "description": "Генерация изображений из текста",
+        "size": "~15GB",
+        "time": "8-12 мин"
+    },
     "QWEN_EDIT": {
         "name": "Qwen Edit (Image Edit)",
         "description": "Редактирование изображений",
         "size": "~15GB",
         "time": "8-12 мин"
     },
-    "QWEN_IMAGE": {
-        "name": "Qwen Image (Text-to-Image)", 
-        "description": "Генерация изображений из текста",
+    "QWEN_EDIT_2509_FP8": {
+        "name": "Qwen Edit 2509 (FP8)",
+        "description": "Qwen Image Edit 2509 FP8 с Lightning LoRA 8steps",
         "size": "~15GB",
         "time": "8-12 мин"
     },
@@ -43,14 +49,8 @@ PRESETS = {
     "QWEN_EDIT_2509_BF16": {
         "name": "Qwen Edit 2509 (BF16)",
         "description": "Qwen Image Edit 2509 BF16 с Lightning LoRA 8steps",
-        "size": "~15GB",
-        "time": "8-12 мин"
-    },
-    "QWEN_EDIT_2509_FP8": {
-        "name": "Qwen Edit 2509 (FP8)",
-        "description": "Qwen Image Edit 2509 FP8 с Lightning LoRA 8steps",
-        "size": "~15GB",
-        "time": "8-12 мин"
+        "size": "~40GB",
+        "time": "10-20 мин"
     }
 }
 
