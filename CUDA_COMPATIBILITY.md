@@ -14,6 +14,7 @@ smyshnikof/comfyui-qwen:base-torch2.8.0-cu124
 | Видеокарта | Рекомендуемый образ | CUDA | Драйвер |
 |------------|-------------------|------|---------|
 | **RTX 5090/5080** | `base-torch2.8.0-cu128` | 12.8 | 550+ |
+| **Новые GPU с CUDA 12.9** | `base-torch2.8.0-cu129` | 12.9 | 560+ |
 | **RTX 4090/4080** | `base-torch2.8.0-cu126` | 12.6 | 535+ |
 | **RTX 4070** | `base-torch2.8.0-cu124` | 12.4 | 535+ |
 | **RTX 3090/3080** | `base-torch2.8.0-cu124` | 12.4 | 535+ |
@@ -88,6 +89,15 @@ smyshnikof/comfyui-qwen:base-torch2.8.0-cu128
 
 # Локальная сборка
 docker buildx build --target base-12-8 --tag comfyui-qwen:rtx5090 --load .
+```
+
+### Для новых GPU с CUDA 12.9:
+```bash
+# RunPod Template
+smyshnikof/comfyui-qwen:base-torch2.8.0-cu129
+
+# Локальная сборка
+docker buildx build --target base-12-9 --tag comfyui-qwen:cu129 --load .
 ```
 
 ## 🆘 Устранение неполадок

@@ -34,6 +34,9 @@ docker buildx build --platform linux/amd64 --target base-12-6 --tag smyshnikof/c
 
 # Сборка с CUDA 12.8 (для RTX 50 серии)
 docker buildx build --platform linux/amd64 --target base-12-8 --tag smyshnikof/comfyui-qwen:base-torch2.8.0-cu128 --load .
+
+# Сборка с CUDA 12.9 (для новых GPU с CUDA 12.9)
+docker buildx build --platform linux/amd64 --target base-12-9 --tag smyshnikof/comfyui-qwen:base-torch2.8.0-cu129 --load .
 ```
 
 ## 🚀 Автоматическая сборка
@@ -46,7 +49,7 @@ docker buildx build --platform linux/amd64 --target base-12-8 --tag smyshnikof/c
    - Ручной запуск (`workflow_dispatch`)
    - По расписанию (каждые 8 часов)
 
-2. **Версии CUDA**: 12.4, 12.6, 12.8
+2. **Версии CUDA**: 12.4, 12.6, 12.8, 12.9
 
 3. **Настройка**:
    - Добавьте `DOCKERHUB_USERNAME` в Variables
@@ -74,6 +77,7 @@ docker buildx bake --push
 | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu124` | 12.4 | RTX 30/40 серии | ~8GB |
 | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu126` | 12.6 | RTX 40 серии | ~8GB |
 | `smyshnikof/comfyui-qwen:base-torch2.8.0-cu128` | 12.8 | RTX 50 серии | ~8GB |
+| `smyshnikof/comfyui-qwen:base-torch2.8.0-cu129` | 12.9 | Новые GPU с CUDA 12.9 | ~8GB |
 
 ## 🔧 Настройка для разработки
 

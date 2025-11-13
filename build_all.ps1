@@ -22,7 +22,7 @@ try {
 }
 
 # Список версий для сборки
-$versions = @("12-4", "12-6", "12-8")
+$versions = @("12-4", "12-6", "12-8", "12-9")
 
 foreach ($version in $versions) {
     Write-Host "🏗️ Сборка образа с CUDA $version..." -ForegroundColor Yellow
