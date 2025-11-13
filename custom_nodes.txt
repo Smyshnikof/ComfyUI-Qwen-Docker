@@ -32,3 +32,12 @@ https://github.com/GACLove/ComfyUI-VFI
 https://github.com/lquesada/ComfyUI-Inpaint-CropAndStitch
 https://github.com/WASasquatch/was-node-suite-comfyui
 https://github.com/kijai/ComfyUI-DepthAnythingV2
+https://github.com/BadCafeCode/masquerade-nodes-comfyui
+https://github.com/Smyshnikof/ComfyUI-PresetDownloadManager
+https://github.com/mercu-lore/-Multiple-Angle-Camera-Control
+https://github.com/Jonseed/ComfyUI-Detail-Daemon
+https://github.com/ClownsharkBatwing/RES4LYF
+https://github.com/digitaljohn/comfyui-propost
+https://github.com/M1kep/ComfyLiterals
+https://github.com/vrgamegirl19/comfyui-vrgamedevgirl
+https://github.com/lrzjason/Comfyui-QwenEditUtils
