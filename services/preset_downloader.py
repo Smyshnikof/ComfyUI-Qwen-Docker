@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 import os
 import subprocess
 import threading
@@ -13,6 +14,90 @@ from huggingface_hub import hf_hub_download, login
 import tempfile
 
 app = FastAPI(title="Preset & Model Downloader")
+
+# Подключаем статические файлы
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+# Структура файлов для каждого пресета
+# Формат: (URL, папка_назначения, кастомное_имя_файла или None)
+PRESET_FILES = {
+    "QWEN_IMAGE": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_fp8_e4m3fn.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    "QWEN_EDIT": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_fp8_e4m3fn.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-8steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    "QWEN_EDIT_2509_FP8": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    "QWEN_IMAGE_BF16": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_bf16.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    "QWEN_EDIT_BF16": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_bf16.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-8steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    "QWEN_EDIT_2509_BF16": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_2509_bf16.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    # Lightning LoRA для дополнительной загрузки
+    "QWEN_IMAGE_LIGHTNING": [
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V2.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V2.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.1-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.1.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V2.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V2.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-fp8-e4m3fn-Lightning-4steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-fp8-e4m3fn-Lightning-4steps-V1.0-fp32.safetensors", "loras", None),
+    ],
+    "QWEN_EDIT_LIGHTNING": [
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-4steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-Lightning-8steps-V1.0.safetensors", "loras", None),
+    ],
+    "QWEN_EDIT_2509_LIGHTNING": [
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-4steps-V1.0-fp32.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-fp32.safetensors", "loras", None),
+    ],
+}
 
 # Доступные пресеты
 PRESETS = {
@@ -138,6 +223,15 @@ INDEX_HTML = """
         <h3>Выберите пресеты для скачивания</h3>
         <div class="preset-grid" id="preset-grid">
           {{ presets_html }}
+        </div>
+        <div class="row-full">
+          <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; cursor: pointer;">
+            <input type="checkbox" id="lightning-lora-checkbox" style="width: 16px; height: 16px;">
+            <span id="lightning-lora-text">⚡ Дополнительно докачать экспериментальные Lightning LoRA</span>
+          </label>
+          <div id="lightning-lora-details" style="margin-left: 24px; font-size: 12px; color: var(--muted); display: none;">
+            <div id="lightning-lora-list"></div>
+          </div>
         </div>
         <div class="row-full">
           <button class="btn btn-preset" onclick="downloadPresets()" id="download-presets-btn" disabled>
@@ -274,134 +368,14 @@ INDEX_HTML = """
     </div>
   </div>
   
+  <script src="/static/script.js"></script>
   <script>
-    let selectedPresets = [];
-    
-    function switchTab(tabName) {
-      // Убираем активный класс со всех табов и контента
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-      
-      // Активируем выбранный таб
-      document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
-      document.getElementById(`${tabName}-tab`).classList.add('active');
-      
-      // Если переключаемся на HuggingFace, активируем таб "Прямая ссылка"
-      if (tabName === 'huggingface') {
-        switchHFMethod('url');
-      }
-    }
-    
-    function switchHFMethod(method) {
-      // Убираем активный класс со всех табов в HuggingFace разделе
-      document.querySelectorAll('#huggingface-tab .tabs .tab').forEach(tab => tab.classList.remove('active'));
-      
-      // Активируем выбранный таб
-      document.querySelector(`#huggingface-tab [onclick="switchHFMethod('${method}')"]`).classList.add('active');
-      
-      // Показываем/скрываем формы
-      if (method === 'url') {
-        document.getElementById('hf-url-form').style.display = 'block';
-        document.getElementById('hf-repo-form').style.display = 'none';
-      } else {
-        document.getElementById('hf-url-form').style.display = 'none';
-        document.getElementById('hf-repo-form').style.display = 'block';
-      }
-    }
-    
-    function togglePreset(presetId) {
-      const card = document.querySelector(`[data-preset="${presetId}"]`);
-      if (selectedPresets.includes(presetId)) {
-        selectedPresets = selectedPresets.filter(p => p !== presetId);
-        card.classList.remove('selected');
-      } else {
-        selectedPresets.push(presetId);
-        card.classList.add('selected');
-      }
-      
-      const btn = document.getElementById('download-presets-btn');
-      btn.disabled = selectedPresets.length === 0;
-      btn.textContent = selectedPresets.length > 0 ? 
-        `📥 Скачать выбранные пресеты (${selectedPresets.length})` : 
-        '📥 Скачать выбранные пресеты';
-    }
-    
-    function downloadPresets() {
-      if (selectedPresets.length === 0) return;
-      
-      const progress = document.getElementById('preset-progress');
-      const result = document.getElementById('preset-result');
-      const btn = document.getElementById('download-presets-btn');
-      
-      // Показываем прогресс
-      progress.style.display = 'block';
-      result.textContent = '';
-      btn.disabled = true;
-      btn.textContent = 'Загрузка...';
-      
-      // Отправляем запрос
-      const formData = new FormData();
-      formData.append('presets', selectedPresets.join(','));
-      
-      fetch('/download_presets', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.task_id) {
-          result.textContent = data.message;
-          // Начинаем опрос статуса
-          pollStatus(data.task_id);
-        } else {
-          result.textContent = data.message;
-          progress.style.display = 'none';
-          btn.disabled = false;
-          btn.textContent = '📥 Скачать выбранные пресеты';
-        }
-      })
-      .catch(error => {
-        result.textContent = '❌ Ошибка: ' + error.message;
-        progress.style.display = 'none';
-        btn.disabled = false;
-        btn.textContent = '📥 Скачать выбранные пресеты';
-      });
-    }
-    
-    function pollStatus(taskId) {
-      const progress = document.getElementById('preset-progress');
-      const result = document.getElementById('preset-result');
-      const btn = document.getElementById('download-presets-btn');
-      
-      fetch(`/status/${taskId}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'completed' || data.status === 'error') {
-          result.textContent = data.message;
-          progress.style.display = 'none';
-          btn.disabled = false;
-          btn.textContent = '📥 Скачать выбранные пресеты';
-        } else if (data.status === 'running') {
-          result.textContent = data.message + ' (проверяем статус...)';
-          // Повторяем через 2 секунды
-          setTimeout(() => pollStatus(taskId), 2000);
-        } else {
-          result.textContent = '❌ Неизвестный статус: ' + data.message;
-          progress.style.display = 'none';
-          btn.disabled = false;
-          btn.textContent = '📥 Скачать выбранные пресеты';
-        }
-      })
-      .catch(error => {
-        result.textContent = '❌ Ошибка проверки статуса: ' + error.message;
-        progress.style.display = 'none';
-        btn.disabled = false;
-        btn.textContent = '📥 Скачать выбранные пресеты';
-      });
-    }
+    // Дополнительный JavaScript код для HuggingFace функций
     
     function pollHFStatus(taskId) {
       const progress = document.getElementById('hf-progress');
+      const progressFill = document.getElementById('hf-progress-fill');
+      const progressText = document.getElementById('hf-progress-text');
       const result = document.getElementById('hf-result');
       
       // Находим активную кнопку (видимую форму)
@@ -421,7 +395,7 @@ INDEX_HTML = """
               document.querySelector('form[action="/download_url"] button[type="submit"]');
       }
       
-      fetch(`/status/${taskId}`)
+      fetch('/status/' + taskId)
       .then(response => response.json())
       .then(data => {
         if (data.status === 'completed' || data.status === 'error') {
@@ -432,9 +406,14 @@ INDEX_HTML = """
             btn.textContent = btn.textContent.includes('HuggingFace') ? '🤗 Скачать с HuggingFace' : '🔗 Скачать по ссылке';
           }
         } else if (data.status === 'running') {
-          result.textContent = data.message + ' (проверяем статус...)';
-          // Повторяем через 2 секунды
-          setTimeout(() => pollHFStatus(taskId), 2000);
+          // Обновляем прогресс-бар
+          const progressPercent = data.progress || 0;
+          progressFill.style.width = progressPercent + '%';
+          progressText.textContent = data.message || 'Загрузка...';
+          result.textContent = data.message || 'Загрузка...';
+          
+          // Повторяем через 500ms для более плавного обновления
+          setTimeout(() => pollHFStatus(taskId), 500);
         } else {
           result.textContent = '❌ Неизвестный статус: ' + data.message;
           progress.style.display = 'none';
@@ -537,6 +516,18 @@ INDEX_HTML = """
         btn.textContent = '🔗 Скачать по ссылке';
       });
     });
+    
+    // Обработчик для чекбокса Lightning LoRA
+    document.getElementById('lightning-lora-checkbox').addEventListener('change', function() {
+      // Обновляем информацию о Lightning LoRA при изменении чекбокса
+      updateLightningLoraInfo();
+    });
+    
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', function() {
+      // Инициализируем состояние Lightning LoRA при загрузке страницы
+      updateLightningLoraInfo();
+    });
   </script>
 </body>
 </html>
@@ -575,7 +566,7 @@ def get_status(task_id: str):
     return download_status[task_id]
 
 @app.post("/download_presets")
-def download_presets(presets: str = Form(...)):
+def download_presets(presets: str = Form(...), lightning_lora: str = Form("false")):
     try:
         # Парсим строку пресетов
         presets_list = [p.strip() for p in presets.split(',') if p.strip()]
@@ -590,34 +581,224 @@ def download_presets(presets: str = Form(...)):
         # Создаем уникальный ID для отслеживания
         task_id = str(uuid.uuid4())
         
+        def download_file_with_progress(url, dest_dir, custom_filename, current_file, total_files, task_id):
+            """Скачивает файл с отслеживанием прогресса в реальном времени, как в LoRA загрузчике"""
+            import re
+            
+            # Определяем имя файла
+            if custom_filename:
+                filename = custom_filename
+            else:
+                filename = os.path.basename(url)
+                # Убираем параметры запроса
+                if '?' in filename:
+                    filename = filename.split('?')[0]
+            
+            filepath = os.path.join(dest_dir, filename)
+            os.makedirs(dest_dir, exist_ok=True)
+            
+            # Проверяем, существует ли файл
+            if os.path.isfile(filepath) and os.path.getsize(filepath) > 0:
+                download_status[task_id] = {
+                    "status": "running",
+                    "message": f"⏭️ Пропущено (уже существует): {filename} ({current_file}/{total_files})",
+                    "progress": (current_file / total_files * 100),
+                    "total_files": total_files,
+                    "current_file": current_file,
+                    "current_filename": filename
+                }
+                return "SKIP", filename
+            
+            # Обновляем статус - начало скачивания
+            download_status[task_id] = {
+                "status": "running",
+                "message": f"📥 Скачивание файла {current_file} из {total_files}: {filename} (0%)",
+                "progress": ((current_file - 1) / total_files * 100),
+                "total_files": total_files,
+                "current_file": current_file,
+                "current_filename": filename
+            }
+            
+            try:
+                # Скачиваем файл с отслеживанием прогресса
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                }
+                response = requests.get(url, stream=True, headers=headers, timeout=300)
+                response.raise_for_status()
+                
+                # Получаем размер файла
+                total_size = int(response.headers.get('content-length', 0))
+                downloaded = 0
+                last_update = 0
+                update_interval = 1024 * 1024 * 5  # Обновляем каждые 5MB
+                
+                # Скачиваем по частям и обновляем прогресс
+                with open(filepath, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=1024*1024):  # 1MB chunks
+                        if chunk:
+                            f.write(chunk)
+                            downloaded += len(chunk)
+                            
+                            # Обновляем прогресс каждые 5MB или если это последний chunk
+                            if downloaded - last_update >= update_interval or (total_size > 0 and downloaded >= total_size):
+                                last_update = downloaded
+                                
+                                # Обновляем прогресс
+                                if total_size > 0:
+                                    file_percent = int((downloaded / total_size) * 100)
+                                    # Вычисляем общий прогресс: (current-1)/total + file_percent/(100*total)
+                                    overall_progress = ((current_file - 1) / total_files * 100) + (file_percent / total_files)
+                                    
+                                    download_status[task_id] = {
+                                        "status": "running",
+                                        "message": f"📥 Скачивание файла {current_file} из {total_files}: {filename} ({file_percent}%)",
+                                        "progress": min(overall_progress, 100),
+                                        "total_files": total_files,
+                                        "current_file": current_file,
+                                        "current_filename": filename
+                                    }
+                                else:
+                                    # Если размер неизвестен, показываем только что идет скачивание
+                                    size_mb = downloaded / (1024 * 1024)
+                                    download_status[task_id] = {
+                                        "status": "running",
+                                        "message": f"📥 Скачивание файла {current_file} из {total_files}: {filename} ({size_mb:.1f} MB)",
+                                        "progress": ((current_file - 1) / total_files * 100) + 0.1,  # Минимальный прогресс
+                                        "total_files": total_files,
+                                        "current_file": current_file,
+                                        "current_filename": filename
+                                    }
+                
+                # Финальное обновление - файл скачан
+                download_status[task_id] = {
+                    "status": "running",
+                    "message": f"✅ Завершено: {filename} ({current_file}/{total_files})",
+                    "progress": (current_file / total_files * 100),
+                    "total_files": total_files,
+                    "current_file": current_file,
+                    "current_filename": filename
+                }
+                
+                return "DOWNLOADED", filename
+                
+            except Exception as e:
+                # Удаляем частично скачанный файл
+                if os.path.exists(filepath):
+                    os.remove(filepath)
+                
+                download_status[task_id] = {
+                    "status": "running",
+                    "message": f"❌ Ошибка скачивания: {filename} ({current_file}/{total_files}) - {str(e)[:100]}",
+                    "progress": ((current_file - 1) / total_files * 100),
+                    "total_files": total_files,
+                    "current_file": current_file,
+                    "current_filename": filename
+                }
+                return "FAILED", filename
+        
         def run_download():
             try:
-                result = subprocess.run(
-                    ["bash", "/download_presets.sh", ",".join(presets_list)],
-                    capture_output=True,
-                    text=True,
-                    timeout=1800  # 30 минут
-                )
+                # Собираем все файлы для скачивания
+                all_files = []
+                for preset_id in presets_list:
+                    if preset_id in PRESET_FILES:
+                        all_files.extend(PRESET_FILES[preset_id])
+                    # Добавляем Lightning LoRA если нужно
+                    if lightning_lora.lower() == "true":
+                        if preset_id == "QWEN_IMAGE" and "QWEN_IMAGE_LIGHTNING" in PRESET_FILES:
+                            all_files.extend(PRESET_FILES["QWEN_IMAGE_LIGHTNING"])
+                        elif preset_id == "QWEN_EDIT" and "QWEN_EDIT_LIGHTNING" in PRESET_FILES:
+                            all_files.extend(PRESET_FILES["QWEN_EDIT_LIGHTNING"])
+                        elif preset_id in ["QWEN_EDIT_2509_FP8", "QWEN_EDIT_2509_BF16"] and "QWEN_EDIT_2509_LIGHTNING" in PRESET_FILES:
+                            all_files.extend(PRESET_FILES["QWEN_EDIT_2509_LIGHTNING"])
                 
-                if result.returncode == 0:
+                total_files = len(all_files)
+                
+                # Инициализируем статус
+                download_status[task_id] = {
+                    "status": "running",
+                    "message": f"🚀 Начато скачивание пресетов: {', '.join(presets_list)}\n📦 Всего файлов: {total_files}",
+                    "progress": 0,
+                    "total_files": total_files,
+                    "current_file": 0,
+                    "current_filename": ""
+                }
+                
+                # Списки для итоговой сводки
+                downloaded_files = []
+                skipped_files = []
+                failed_files = []
+                
+                # Скачиваем каждый файл
+                for idx, (url, folder, custom_filename) in enumerate(all_files, 1):
+                    dest_dir = f"/workspace/ComfyUI/models/{folder}"
+                    result, filename = download_file_with_progress(
+                        url, dest_dir, custom_filename, idx, total_files, task_id
+                    )
+                    
+                    if result == "DOWNLOADED":
+                        downloaded_files.append(filename)
+                    elif result == "SKIP":
+                        skipped_files.append(filename)
+                    elif result == "FAILED":
+                        failed_files.append(filename)
+                
+                # Формируем итоговую сводку
+                summary_parts = []
+                summary_parts.append(f"✅ Скачивание пресетов завершено: {', '.join(presets_list)}")
+                summary_parts.append("")
+                
+                if downloaded_files:
+                    summary_parts.append(f"📥 Скачано файлов: {len(downloaded_files)}")
+                    for filename in downloaded_files[:10]:  # Показываем первые 10
+                        summary_parts.append(f"   ✅ {filename}")
+                    if len(downloaded_files) > 10:
+                        summary_parts.append(f"   ... и еще {len(downloaded_files) - 10} файлов")
+                    summary_parts.append("")
+                
+                if skipped_files:
+                    summary_parts.append(f"⏭️ Пропущено (уже существуют): {len(skipped_files)}")
+                    for filename in skipped_files[:10]:  # Показываем первые 10
+                        summary_parts.append(f"   ⏭️ {filename}")
+                    if len(skipped_files) > 10:
+                        summary_parts.append(f"   ... и еще {len(skipped_files) - 10} файлов")
+                    summary_parts.append("")
+                
+                if failed_files:
+                    summary_parts.append(f"❌ Ошибки при скачивании: {len(failed_files)}")
+                    for filename in failed_files:
+                        summary_parts.append(f"   ❌ {filename}")
+                    summary_parts.append("")
+                
+                summary_message = "\n".join(summary_parts)
+                
+                if failed_files:
                     download_status[task_id] = {
-                        "status": "completed",
-                        "message": f"✅ Успешно скачаны пресеты: {', '.join(presets_list)}\n\n{result.stdout}"
+                        "status": "error",
+                        "message": summary_message,
+                        "progress": 100,
+                        "total_files": total_files,
+                        "current_file": total_files,
+                        "current_filename": ""
                     }
                 else:
                     download_status[task_id] = {
-                        "status": "error", 
-                        "message": f"❌ Ошибка скачивания пресетов:\n{result.stderr}"
+                        "status": "completed",
+                        "message": summary_message,
+                        "progress": 100,
+                        "total_files": total_files,
+                        "current_file": total_files,
+                        "current_filename": ""
                     }
-            except subprocess.TimeoutExpired:
-                download_status[task_id] = {
-                    "status": "error",
-                    "message": "❌ Таймаут: Скачивание заняло слишком много времени"
-                }
             except Exception as e:
                 download_status[task_id] = {
                     "status": "error",
-                    "message": f"❌ Ошибка: {str(e)}"
+                    "message": f"❌ Ошибка: {str(e)}",
+                    "progress": download_status[task_id].get("progress", 0),
+                    "total_files": download_status[task_id].get("total_files", 0),
+                    "current_file": download_status[task_id].get("current_file", 0),
+                    "current_filename": download_status[task_id].get("current_filename", "")
                 }
         
         # Запускаем в отдельном потоке
@@ -682,7 +863,8 @@ def download_hf(repo: str = Form(...), filename: str = Form(""), token: str = Fo
                 
                 download_status[task_id] = {
                     "status": "completed",
-                    "message": success_msg
+                    "message": success_msg,
+                    "progress": 100
                 }
                 
             except Exception as e:
@@ -694,7 +876,8 @@ def download_hf(repo: str = Form(...), filename: str = Form(""), token: str = Fo
                 
                 download_status[task_id] = {
                     "status": "error",
-                    "message": error_msg
+                    "message": error_msg,
+                    "progress": download_status[task_id].get("progress", 0)
                 }
         
         # Запускаем в отдельном потоке
@@ -705,7 +888,8 @@ def download_hf(repo: str = Form(...), filename: str = Form(""), token: str = Fo
         # Сохраняем статус
         download_status[task_id] = {
             "status": "running",
-            "message": f"🚀 Начато скачивание с HuggingFace: {repo}"
+            "message": f"🚀 Начато скачивание с HuggingFace: {repo}",
+            "progress": 0
         }
         
         return {"message": f"🚀 Скачивание начато! ID задачи: {task_id}", "task_id": task_id}
@@ -770,14 +954,16 @@ def download_url(url: str = Form(...), folder: str = Form("diffusion_models")):
                 
                 download_status[task_id] = {
                     "status": "completed",
-                    "message": success_msg
+                    "message": success_msg,
+                    "progress": 100
                 }
                 
             except Exception as e:
                 error_msg = f"❌ Ошибка: {str(e)}"
                 download_status[task_id] = {
                     "status": "error",
-                    "message": error_msg
+                    "message": error_msg,
+                    "progress": download_status[task_id].get("progress", 0)
                 }
         
         # Запускаем в отдельном потоке
@@ -788,7 +974,8 @@ def download_url(url: str = Form(...), folder: str = Form("diffusion_models")):
         # Сохраняем статус
         download_status[task_id] = {
             "status": "running",
-            "message": f"🚀 Начато скачивание по ссылке: {url}"
+            "message": f"🚀 Начато скачивание по ссылке: {url}",
+            "progress": 0
         }
         
         return {"message": f"🚀 Скачивание начато! ID задачи: {task_id}", "task_id": task_id}
