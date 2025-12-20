@@ -71,6 +71,11 @@ PRESET_FILES = {
         ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors", "loras", None),
         ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
     ],
+    "QWEN_LAYERED_BF16": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image-Layered_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_layered_bf16.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image-Layered_ComfyUI/resolve/main/split_files/vae/qwen_image_layered_vae.safetensors", "vae", None),
+    ],
     # Lightning LoRA для дополнительной загрузки
     "QWEN_IMAGE_LIGHTNING": [
         ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0-bf16.safetensors", "loras", None),
@@ -134,6 +139,12 @@ PRESETS = {
     "QWEN_EDIT_2509_BF16": {
         "name": "Qwen Edit 2509 (BF16)",
         "description": "Qwen Image Edit 2509 BF16 с Lightning LoRA 8steps",
+        "size": "~40GB",
+        "time": "10-20 мин"
+    },
+    "QWEN_LAYERED_BF16": {
+        "name": "Qwen Layered BF16",
+        "description": "Разложить изображение на слои",
         "size": "~40GB",
         "time": "10-20 мин"
     }
