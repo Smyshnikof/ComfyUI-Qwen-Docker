@@ -169,7 +169,7 @@ PRESETS = {
     },
     "QWEN_EDIT_2511_FP8": {
         "name": "Qwen Edit 2511 (FP8)",
-        "description": "Улучшенная версия Qwen-Image-Edit-2509,
+        "description": "Улучшенная версия Qwen-Image-Edit-2509",
         "size": "~15GB",
         "time": "8-12 мин"
     },
