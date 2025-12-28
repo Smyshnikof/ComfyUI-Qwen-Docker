@@ -71,6 +71,20 @@ PRESET_FILES = {
         ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Edit-2509/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors", "loras", None),
         ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
     ],
+    "QWEN_EDIT_2511_BF16": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning/resolve/main/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    "QWEN_EDIT_2511_FP8": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_2511_fp8mixed.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/HunyuanVideo_1.5_repackaged/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning/resolve/main/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
     "QWEN_LAYERED_BF16": [
         ("https://huggingface.co/Comfy-Org/Qwen-Image-Layered_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_layered_bf16.safetensors", "diffusion_models", None),
         ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
@@ -146,6 +160,18 @@ PRESETS = {
         "description": "Qwen Image Edit 2509 BF16 с Lightning LoRA 8steps",
         "size": "~40GB",
         "time": "10-20 мин"
+    },
+    "QWEN_EDIT_2511_BF16": {
+        "name": "Qwen Edit 2511 (BF16)",
+        "description": "Улучшенная версия Qwen-Image-Edit-2509",
+        "size": "~40GB",
+        "time": "10-20 мин"
+    },
+    "QWEN_EDIT_2511_FP8": {
+        "name": "Qwen Edit 2511 (FP8)",
+        "description": "Улучшенная версия Qwen-Image-Edit-2509,
+        "size": "~15GB",
+        "time": "8-12 мин"
     },
     "QWEN_LAYERED_BF16": {
         "name": "Qwen Layered BF16",
