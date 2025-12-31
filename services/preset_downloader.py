@@ -56,6 +56,33 @@ PRESET_FILES = {
         ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.0.safetensors", "loras", None),
         ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
     ],
+    "QWEN_IMAGE_2512_FP8": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_2512_fp8_e4m3fn.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    "QWEN_IMAGE_2512_BF16": [
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_2512_bf16.safetensors", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
+    "QWEN_IMAGE_2512_Q8_GGUF": [
+        ("https://huggingface.co/unsloth/Qwen-Image-2512-GGUF/resolve/main/qwen-image-2512-Q8_0.gguf", "diffusion_models", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
+        ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors", "vae", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-8steps-V1.0.safetensors", "loras", None),
+        ("https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth", "upscale_models", None),
+    ],
     "QWEN_EDIT_BF16": [
         ("https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_bf16.safetensors", "diffusion_models", None),
         ("https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b.safetensors", "text_encoders", None),
@@ -148,6 +175,24 @@ PRESETS = {
         "description": "Полная BF16-модель для генерации (≈40GB VRAM)",
         "size": "~40GB",
         "time": "10-20 мин"
+    },
+    "QWEN_IMAGE_2512_FP8": {
+        "name": "Qwen Image 2512 (FP8)",
+        "description": "Улучшенная версия Qwen Image",
+        "size": "~15GB",
+        "time": "8-12 мин"
+    },
+    "QWEN_IMAGE_2512_BF16": {
+        "name": "Qwen Image 2512 (BF16)",
+        "description": "Улучшенная версия Qwen Image",
+        "size": "~40GB",
+        "time": "10-20 мин"
+    },
+    "QWEN_IMAGE_2512_Q8_GGUF": {
+        "name": "Qwen Image 2512 (Q8 GGUF)",
+        "description": "Улучшенная версия Qwen Image в формате GGUF",
+        "size": "~20GB",
+        "time": "10-15 мин"
     },
     "QWEN_EDIT_BF16": {
         "name": "Qwen Edit (Full BF16)",
@@ -876,23 +921,85 @@ def download_hf(repo: str = Form(...), filename: str = Form(""), token: str = Fo
                 target_dir = f"/workspace/ComfyUI/models/{folder}"
                 os.makedirs(target_dir, exist_ok=True)
                 
-                # Если есть токен, логинимся
-                if token:
-                    login(token=token)
-                
-                # Скачиваем файл
                 if filename:
-                    # Скачиваем конкретный файл
-                    file_path = hf_hub_download(
-                        repo_id=repo,
-                        filename=filename,
-                        cache_dir=target_dir,
-                        local_dir=target_dir,
-                        local_dir_use_symlinks=False
-                    )
-                    file_name = os.path.basename(file_path)
+                    # Скачиваем конкретный файл с прогрессом
+                    # Формируем прямую ссылку на файл
+                    hf_url = f"https://huggingface.co/{repo}/resolve/main/{filename}"
+                    
+                    # Обновляем статус - начало скачивания
+                    download_status[task_id] = {
+                        "status": "running",
+                        "message": f"📥 Подключение к HuggingFace...",
+                        "progress": 0
+                    }
+                    
+                    # Подготавливаем заголовки
+                    headers = {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                    }
+                    if token:
+                        headers['Authorization'] = f'Bearer {token}'
+                    
+                    response = requests.get(hf_url, stream=True, headers=headers, timeout=300)
+                    response.raise_for_status()
+                    
+                    file_path = os.path.join(target_dir, filename)
+                    
+                    # Получаем размер файла
+                    total_size = int(response.headers.get('content-length', 0))
+                    downloaded = 0
+                    last_update = 0
+                    update_interval = 1024 * 1024 * 5  # Обновляем каждые 5MB
+                    
+                    # Скачиваем файл с отслеживанием прогресса
+                    with open(file_path, 'wb') as f:
+                        for chunk in response.iter_content(chunk_size=1024*1024):  # 1MB chunks
+                            if chunk:
+                                f.write(chunk)
+                                downloaded += len(chunk)
+                                
+                                # Обновляем прогресс каждые 5MB
+                                if downloaded - last_update >= update_interval or (total_size > 0 and downloaded >= total_size):
+                                    last_update = downloaded
+                                    
+                                    if total_size > 0:
+                                        percent = int((downloaded / total_size) * 100)
+                                        size_mb = downloaded / (1024 * 1024)
+                                        total_mb = total_size / (1024 * 1024)
+                                        download_status[task_id] = {
+                                            "status": "running",
+                                            "message": f"📥 Скачивание: {filename} ({percent}%) - {size_mb:.1f} MB / {total_mb:.1f} MB",
+                                            "progress": percent
+                                        }
+                                    else:
+                                        size_mb = downloaded / (1024 * 1024)
+                                        download_status[task_id] = {
+                                            "status": "running",
+                                            "message": f"📥 Скачивание: {filename} ({size_mb:.1f} MB)",
+                                            "progress": 0
+                                        }
+                    
+                    # Финальное обновление
+                    size_mb = os.path.getsize(file_path) / (1024 * 1024)
+                    success_msg = f"✅ Успешно загружено!\n📁 Файл: {filename}\n💾 Размер: {size_mb:.1f} MB\n📂 Путь: {target_dir}"
+                    
+                    download_status[task_id] = {
+                        "status": "completed",
+                        "message": success_msg,
+                        "progress": 100
+                    }
                 else:
-                    # Скачиваем весь репозиторий
+                    # Скачиваем весь репозиторий (используем huggingface_hub, так как это сложнее)
+                    download_status[task_id] = {
+                        "status": "running",
+                        "message": f"📥 Скачивание всего репозитория {repo}...",
+                        "progress": 0
+                    }
+                    
+                    # Если есть токен, логинимся
+                    if token:
+                        login(token=token)
+                    
                     from huggingface_hub import snapshot_download
                     snapshot_download(
                         repo_id=repo,
@@ -900,26 +1007,20 @@ def download_hf(repo: str = Form(...), filename: str = Form(""), token: str = Fo
                         local_dir=target_dir,
                         local_dir_use_symlinks=False
                     )
-                    file_name = f"весь репозиторий {repo}"
-                
-                # Получаем размер файла
-                if os.path.isfile(file_path):
-                    size_mb = os.path.getsize(file_path) / (1024 * 1024)
-                    success_msg = f"✅ Успешно загружено!\n📁 Файл: {file_name}\n💾 Размер: {size_mb:.1f} MB\n📂 Путь: {target_dir}"
-                else:
-                    success_msg = f"✅ Успешно загружено!\n📁 Репозиторий: {file_name}\n📂 Путь: {target_dir}"
-                
-                download_status[task_id] = {
-                    "status": "completed",
-                    "message": success_msg,
-                    "progress": 100
-                }
+                    
+                    success_msg = f"✅ Успешно загружено!\n📁 Репозиторий: {repo}\n📂 Путь: {target_dir}"
+                    
+                    download_status[task_id] = {
+                        "status": "completed",
+                        "message": success_msg,
+                        "progress": 100
+                    }
                 
             except Exception as e:
                 error_msg = f"❌ Ошибка: {str(e)}"
                 
                 # Если ошибка связана с токеном, предлагаем его ввести
-                if "authentication" in str(e).lower() or "token" in str(e).lower():
+                if "authentication" in str(e).lower() or "token" in str(e).lower() or "401" in str(e):
                     error_msg += "\n\n💡 Попробуйте ввести API токен HuggingFace"
                 
                 download_status[task_id] = {
@@ -956,12 +1057,19 @@ def download_url(url: str = Form(...), folder: str = Form("diffusion_models")):
                 target_dir = f"/workspace/ComfyUI/models/{folder}"
                 os.makedirs(target_dir, exist_ok=True)
                 
-                # Скачиваем файл по прямой ссылке
-                import requests
+                # Скачиваем файл по прямой ссылке с отслеживанием прогресса
                 headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
-                response = requests.get(url, stream=True, headers=headers)
+                
+                # Обновляем статус - начало скачивания
+                download_status[task_id] = {
+                    "status": "running",
+                    "message": f"📥 Подключение к серверу...",
+                    "progress": 0
+                }
+                
+                response = requests.get(url, stream=True, headers=headers, timeout=300)
                 response.raise_for_status()
                 
                 # Получаем имя файла из URL
@@ -991,12 +1099,41 @@ def download_url(url: str = Form(...), folder: str = Form("diffusion_models")):
                 
                 file_path = os.path.join(target_dir, filename)
                 
-                # Скачиваем файл
-                with open(file_path, 'wb') as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        f.write(chunk)
-                
                 # Получаем размер файла
+                total_size = int(response.headers.get('content-length', 0))
+                downloaded = 0
+                last_update = 0
+                update_interval = 1024 * 1024 * 5  # Обновляем каждые 5MB
+                
+                # Скачиваем файл с отслеживанием прогресса
+                with open(file_path, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=1024*1024):  # 1MB chunks
+                        if chunk:
+                            f.write(chunk)
+                            downloaded += len(chunk)
+                            
+                            # Обновляем прогресс каждые 5MB
+                            if downloaded - last_update >= update_interval or (total_size > 0 and downloaded >= total_size):
+                                last_update = downloaded
+                                
+                                if total_size > 0:
+                                    percent = int((downloaded / total_size) * 100)
+                                    size_mb = downloaded / (1024 * 1024)
+                                    total_mb = total_size / (1024 * 1024)
+                                    download_status[task_id] = {
+                                        "status": "running",
+                                        "message": f"📥 Скачивание: {filename} ({percent}%) - {size_mb:.1f} MB / {total_mb:.1f} MB",
+                                        "progress": percent
+                                    }
+                                else:
+                                    size_mb = downloaded / (1024 * 1024)
+                                    download_status[task_id] = {
+                                        "status": "running",
+                                        "message": f"📥 Скачивание: {filename} ({size_mb:.1f} MB)",
+                                        "progress": 0
+                                    }
+                
+                # Финальное обновление
                 size_mb = os.path.getsize(file_path) / (1024 * 1024)
                 success_msg = f"✅ Успешно загружено!\n🔗 Ссылка: {url}\n📄 Файл: {filename}\n💾 Размер: {size_mb:.1f} MB\n📂 Путь: {target_dir}"
                 

@@ -41,3 +41,7 @@ https://github.com/digitaljohn/comfyui-propost
 https://github.com/M1kep/ComfyLiterals
 https://github.com/vrgamegirl19/comfyui-vrgamedevgirl
 https://github.com/lrzjason/Comfyui-QwenEditUtils
+https://github.com/luguoli/ComfyUI-Qwen-Image-Integrated-KSampler
+https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler
+https://github.com/Suzie1/ComfyUI_Comfyroll_CustomNodes
+https://github.com/1038lab/ComfyUI-QwenVL
