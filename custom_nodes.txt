@@ -45,3 +45,6 @@ https://github.com/luguoli/ComfyUI-Qwen-Image-Integrated-KSampler
 https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler
 https://github.com/Suzie1/ComfyUI_Comfyroll_CustomNodes
 https://github.com/1038lab/ComfyUI-QwenVL
+https://github.com/chflame163/ComfyUI_LayerStyle
+https://github.com/1038lab/ComfyUI-RMBG
+https://github.com/LAOGOU-666/Comfyui-Memory_Cleanup
